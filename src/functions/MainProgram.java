@@ -265,35 +265,45 @@ public class MainProgram {
     public static void main(String[] args) throws Exception{
             Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
             // set this to a MS Access DB you have on your machine
-            String filename = "C:\\Users\\TungNguyen\\Downloads\\meeting_schedule-master\\meeting_schedule-master\\CS580.mdb";
-            String database = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ="+filename+";readOnly=false"; // add on to the end 
+//            String filename = "C:\\Users\\Matthew Lai\\Documents\\Work\\Graduate Work\\CS580\\Meeting Planner\\cs580project\\cs580.mdb";
+            java.io.File f = new java.io.File("cs580.mdb");
+            System.out.println(f.getAbsolutePath());
+            String database; 
+            database = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ="+f.getAbsolutePath()+";readOnly=false"; // add on to the end 
+//            String database = "jdbc:odbc:CS580db"; // add on to the end 
             // now we can get the connection from the DriverManager
-            con = DriverManager.getConnection(database ,"",""); 
+            try {
+                con = DriverManager.getConnection(database ,"",""); 
+            } catch(SQLException e)
+            {
+                database = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+f.getAbsolutePath()+";readOnly=false"; // add on to the end 
+                con = DriverManager.getConnection(database ,"","");
+            }
             setupClasses();
 
-    for(int i=0;i<emList.size();i++){
-        System.out.println(emList.get(i).getName());
-    }
-     
-    for(int i=0;i<roomList.size();i++){
-        System.out.println(roomList.get(i).getRoomName());
-    }            
-            
-    for(int i=0;i<meetingList.size();i++){
-        System.out.println(meetingList.get(i).getMeetingDate());
-    }            
-            
-            //get the employee object from login window
-            Employee em = new LoginWindow(null, true).openDialog();
-            System.out.println(em);
-            if(em!=null){
-                EmployeeDialog diag=new EmployeeDialog(null,true,em);
-                diag.setLocationRelativeTo(null);
-                diag.setVisible(true);
-            }
-            //close the connection
-            System.out.println("closing the sql connection");
-            con.close();
+        for(int i=0;i<emList.size();i++){
+            System.out.println(emList.get(i).getName());
+        }
+
+        for(int i=0;i<roomList.size();i++){
+            System.out.println(roomList.get(i).getRoomName());
+        }            
+
+        for(int i=0;i<meetingList.size();i++){
+            System.out.println(meetingList.get(i).getMeetingDate());
+        }            
+
+                //get the employee object from login window
+                Employee em = new LoginWindow(null, true).openDialog();
+                System.out.println(em);
+                if(em!=null){
+                    EmployeeDialog diag=new EmployeeDialog(null,true,em);
+                    diag.setLocationRelativeTo(null);
+                    diag.setVisible(true);
+                }
+                //close the connection
+                System.out.println("closing the sql connection");
+                con.close();
     }
 
     public static MeetingParticipantControl getMPC() {
