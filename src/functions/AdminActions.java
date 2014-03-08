@@ -88,7 +88,28 @@ public class AdminActions {
         MainProgram.getRoomList().add(newRoom);
         return newRoom;
     }
-
+// createRoom with capacity support
+    public static Room createRoom(String roomName, int capacity) throws SQLException, RoomExistsException{
+        Room newRoom=null;
+        PreparedStatement searchStmt = MainProgram.getConnection().prepareStatement("select * from room where roomName=?");
+        searchStmt.setString(1, roomName);
+        ResultSet rs=searchStmt.executeQuery();
+        if(rs.next()) {
+            throw new RoomExistsException();
+        }
+        PreparedStatement createStmt = MainProgram.getConnection().prepareStatement("insert into room(roomName) values(?)");
+        createStmt.setString(1, roomName);
+        searchStmt.setInt(2, capacity);
+        createStmt.executeUpdate();
+        Statement idstmt=MainProgram.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs2=idstmt.executeQuery("select @@identity");
+        rs2.next();
+        int roomID=rs2.getInt(1);
+        System.out.println("recordID gotten for schedule"+roomID);      
+        newRoom=new Room(roomID,roomName,capacity);
+        MainProgram.getRoomList().add(newRoom);
+        return newRoom;
+    }
     public static void deleteRoom(int roomID) throws SQLException{
         //delete meetings
         Vector<Meeting> m=MainProgram.getMeetingListByRoom(roomID);
