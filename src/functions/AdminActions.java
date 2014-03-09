@@ -97,9 +97,9 @@ public class AdminActions {
         if(rs.next()) {
             throw new RoomExistsException();
         }
-        PreparedStatement createStmt = MainProgram.getConnection().prepareStatement("insert into room(roomName) values(?)");
+        PreparedStatement createStmt = MainProgram.getConnection().prepareStatement("insert into room(roomName,capacity) values(?,?)");
         createStmt.setString(1, roomName);
-        searchStmt.setInt(2, capacity);
+        createStmt.setInt(2, capacity);
         createStmt.executeUpdate();
         Statement idstmt=MainProgram.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
         ResultSet rs2=idstmt.executeQuery("select @@identity");
