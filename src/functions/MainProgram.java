@@ -183,6 +183,32 @@ public class MainProgram {
         }
         return r;
     }
+// getRoomsAvailable with minCapacity parameter    
+    public static Vector<Room> getRoomsAvailable(java.util.Date day, java.util.Date timeBegin,java.util.Date timeEnd, int minCapacity){
+        Vector<Room> r = new Vector<Room>();
+        for(int i=0;i<roomList.size();i++){
+            r.add(roomList.get(i));
+        }
+        //int dayOfWeek=day.getDay();
+        try{
+            Statement stmt = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);        
+            ResultSet rs=stmt.executeQuery("select * from roomschedule");
+            while(rs.next()){
+                if(WeeklySchedule.dayEqual(day, rs.getDate("MeetingDate"))&&
+                        WeeklySchedule.timeOverlap(timeBegin, timeEnd, rs.getTime("MeetingTimeBegin"), rs.getTime("MeetingTimeEnd"))&&
+                        rs.getInt(3) < minCapacity)
+                {    
+                    String roomName=rs.getString(2);
+                    System.out.println("removing unavai room:"+roomName);
+                    System.out.println("removed?"+r.remove(new Room(rs.getInt(1),roomName)));
+                }
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return r;
+    }
     
     public static Vector<TimeSlot> computeTimeSlot(java.util.Date meetingDate,Meeting meetingExclude,Vector<Employee> employeeList){
         Vector<TimeSlot> unavailTSDay=new Vector<TimeSlot>();
@@ -265,12 +291,10 @@ public class MainProgram {
     public static void main(String[] args) throws Exception{
             Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
             // set this to a MS Access DB you have on your machine
-//            String filename = "C:\\Users\\Matthew Lai\\Documents\\Work\\Graduate Work\\CS580\\Meeting Planner\\cs580project\\cs580.mdb";
             java.io.File f = new java.io.File("cs580.mdb");
             System.out.println(f.getAbsolutePath());
             String database; 
             database = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ="+f.getAbsolutePath()+";readOnly=false"; // add on to the end 
-//            String database = "jdbc:odbc:CS580db"; // add on to the end 
             // now we can get the connection from the DriverManager
             try {
                 con = DriverManager.getConnection(database ,"",""); 
