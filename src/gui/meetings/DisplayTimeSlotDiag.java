@@ -263,7 +263,8 @@ public Meeting openDialog(){
 private void helperShowRoomAvailable(){
     SpinnerDateModel b=(SpinnerDateModel)timeBeginSpin.getModel();
     SpinnerDateModel e=(SpinnerDateModel)timeEndSpin.getModel();
-    Vector<Room> ra=MainProgram.getRoomsAvailable(meetingDate,b.getDate(),e.getDate());
+    Vector<Room> ra=MainProgram.getRoomsAvailable(meetingDate,b.getDate(),e.getDate(),participantList.size());
+//    Vector<Room> ra=MainProgram.getRoomsAvailable(meetingDate,b.getDate(),e.getDate());
     Room returned=new RoomAvailableDialog(this,true,ra).openDialog();
     if(returned!=null){
         meetingRoom=returned;
