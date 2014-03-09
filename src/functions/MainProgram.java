@@ -10,6 +10,10 @@ public class MainProgram {
     private static Vector<Room> roomList;
     private static Vector<Meeting> meetingList;
     private static MeetingParticipantControl mpc;
+    private static MeetingPlannerClient client;
+    private static MeetingPlannerServer server;
+    private static final String HOST = "127.0.0.1";
+    private static final int PORT = 8888;
     public static Connection getConnection(){
         return con;
     }
@@ -55,6 +59,9 @@ public class MainProgram {
             e.printStackTrace();
         }               
         
+        server = new MeetingPlannerServer();
+        new Thread(server).start();
+        client = new MeetingPlannerClient(HOST, PORT);
     }
     
     
@@ -331,6 +338,9 @@ public class MainProgram {
                 //close the connection
                 System.out.println("closing the sql connection");
                 con.close();
+                System.out.println("closing socket connection");
+                client.close();
+                server.close();
     }
 
     public static MeetingParticipantControl getMPC() {
@@ -339,5 +349,11 @@ public class MainProgram {
 
     public static Vector<Employee> getEmList() {
         return emList;
+    }
+
+    public static void sendEmail(Meeting meeting, boolean isModify) {
+        System.out.println("SEND EMAIL");
+//        client.sendEmail((isModify)?1:0, meeting.getOwner().getEmployeeID(), meeting.getTimeBegin(), meeting.getMeetingRoom().getRoomID());
+        client.sendEmail((isModify)?1:0, meeting.getMeetingID());
     }
 }
