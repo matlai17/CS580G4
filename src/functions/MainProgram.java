@@ -195,14 +195,17 @@ public class MainProgram {
             ResultSet rs=stmt.executeQuery("select * from roomschedule");
             while(rs.next()){
                 if(WeeklySchedule.dayEqual(day, rs.getDate("MeetingDate"))&&
-                        WeeklySchedule.timeOverlap(timeBegin, timeEnd, rs.getTime("MeetingTimeBegin"), rs.getTime("MeetingTimeEnd"))&&
-                        rs.getInt(3) < minCapacity)
+                        WeeklySchedule.timeOverlap(timeBegin, timeEnd, rs.getTime("MeetingTimeBegin"), rs.getTime("MeetingTimeEnd")))
                 {    
                     String roomName=rs.getString(2);
                     System.out.println("removing unavai room:"+roomName);
                     System.out.println("removed?"+r.remove(new Room(rs.getInt(1),roomName)));
                 }
             }
+// check capacity            
+            for(int i = 0; i < r.size(); i++)
+                if(minCapacity > r.get(i).getRoomCapacity()) r.remove(i);
+            
         }catch(SQLException e){
             e.printStackTrace();
             return null;
