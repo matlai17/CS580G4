@@ -21,6 +21,8 @@ public class AdminDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         accountPanel = new javax.swing.JPanel();
         createAccBtn = new javax.swing.JButton();
@@ -29,10 +31,23 @@ public class AdminDialog extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         accInfoTable = new javax.swing.JTable();
         roomPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        roomList = new javax.swing.JList(theRoomListModel);
         createRoomBtn = new javax.swing.JButton();
         delRoomBtn = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        roomTable = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Administrative Functions");
@@ -76,8 +91,8 @@ public class AdminDialog extends javax.swing.JDialog {
                 .addComponent(delAccBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetPassBtn)
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                .addContainerGap(30, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
         );
         accountPanelLayout.setVerticalGroup(
             accountPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,10 +108,6 @@ public class AdminDialog extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Employees", accountPanel);
         jTabbedPane1.setMnemonicAt(0, KeyEvent.VK_A);
-
-        roomList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        roomList.setCellRenderer(new RoomListRenderer());
-        jScrollPane1.setViewportView(roomList);
 
         createRoomBtn.setMnemonic('c');
         createRoomBtn.setText("Create New Room...");
@@ -114,30 +125,46 @@ public class AdminDialog extends javax.swing.JDialog {
             }
         });
 
+        roomTable.setModel(theRoomListModel);
+        javax.swing.table.TableColumn column = null;
+        for(int i = 0; i < roomTable.getColumnCount(); i++)
+        {
+            column = roomTable.getColumnModel().getColumn(i);
+            switch(i){
+                case 0:
+                column.setPreferredWidth(30);
+                break;
+                case 1:
+                column.setPreferredWidth(240);
+                break;
+                case 2:
+                column.setPreferredWidth(30);
+                break;
+            }
+        }
+        jScrollPane4.setViewportView(roomTable);
+
         javax.swing.GroupLayout roomPanelLayout = new javax.swing.GroupLayout(roomPanel);
         roomPanel.setLayout(roomPanelLayout);
         roomPanelLayout.setHorizontalGroup(
             roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roomPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addGroup(roomPanelLayout.createSequentialGroup()
-                        .addComponent(createRoomBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(delRoomBtn)
-                        .addContainerGap(91, Short.MAX_VALUE))))
+                .addComponent(createRoomBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(delRoomBtn)
+                .addContainerGap(101, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         roomPanelLayout.setVerticalGroup(
             roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roomPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(createRoomBtn)
                     .addComponent(delRoomBtn))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Rooms", roomPanel);
@@ -147,11 +174,11 @@ public class AdminDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, Short.MAX_VALUE)
         );
 
         pack();
@@ -169,13 +196,38 @@ private void helperCreateAcc(){
 }
 
 private void createRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createRoomBtnActionPerformed
-    helperCreateRoom();
+    helperCreateRoomWithCapacity();
 }//GEN-LAST:event_createRoomBtnActionPerformed
 
 private void helperCreateRoom(){
     String name=JOptionPane.showInputDialog(this,"Enter room name:");
     try{
         Room newRoom=AdminActions.createRoom(name);
+        theRoomListModel.addElement(newRoom);
+        JOptionPane.showMessageDialog(this, "Room created");
+    }catch(RoomExistsException e){
+        JOptionPane.showMessageDialog(this, "Room already exists",null,JOptionPane.ERROR_MESSAGE); 
+    }catch(SQLException e){
+        JOptionPane.showMessageDialog(this, "Error creating: "+e.getMessage(),null,JOptionPane.ERROR_MESSAGE); 
+    }
+  
+}
+
+private void helperCreateRoomWithCapacity(){
+    JPanel roomCreatePanel = new JPanel();
+    JTextField roomName = new JTextField(10);
+    JTextField roomCap = new JTextField(10);
+    roomCreatePanel.add(new JLabel("Enter Room Name: "));
+    roomCreatePanel.add(roomName);
+    roomCreatePanel.add(Box.createHorizontalStrut(15));
+    roomCreatePanel.add(new JLabel("Enter Room Capacity: "));
+    roomCreatePanel.add(roomCap);
+//    String name=JOptionPane.showInputDialog(this,"Enter room name:");
+    int result = JOptionPane.showConfirmDialog(null, roomCreatePanel, "New Room", JOptionPane.OK_CANCEL_OPTION);
+    String name = roomName.getText();
+    int capacity = Integer.valueOf(roomCap.getText());
+    try{
+        Room newRoom=AdminActions.createRoom(name, capacity);
         theRoomListModel.addElement(newRoom);
         JOptionPane.showMessageDialog(this, "Room created");
     }catch(RoomExistsException e){
@@ -237,7 +289,7 @@ private void delRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_delRoomBtnActionPerformed
 
 private void helperDeleteRoom(){
-    int selectedIndex=roomList.getSelectedIndex();
+    int selectedIndex=roomTable.getSelectedRow();
     if(selectedIndex<0) {
         JOptionPane.showMessageDialog(this, "Nothing selected",null,JOptionPane.ERROR_MESSAGE);
         return;
@@ -267,12 +319,14 @@ private void helperDeleteRoom(){
     private javax.swing.JButton createRoomBtn;
     private javax.swing.JButton delAccBtn;
     private javax.swing.JButton delRoomBtn;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton resetPassBtn;
-    private javax.swing.JList roomList;
     private javax.swing.JPanel roomPanel;
+    private javax.swing.JTable roomTable;
     // End of variables declaration//GEN-END:variables
 
 }
