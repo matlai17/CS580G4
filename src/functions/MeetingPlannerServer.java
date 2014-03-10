@@ -88,16 +88,8 @@ public class MeetingPlannerServer implements Runnable{
             while(!exit)
             {
                 String command = in.readLine();
-                if(command.equals("emailModify"))
-                {
-                    String damnThing = in.readLine();
-                    email(true, Integer.parseInt(damnThing));
-                }
-                if(command.equals("email"))
-                {
-                    String damnThing = in.readLine();
-                    email(false, Integer.parseInt(damnThing));
-                }
+                if(command.equals("emailModify")) email(true, Integer.parseInt(in.readLine()));
+                if(command.equals("email")) email(false, Integer.parseInt(in.readLine()));
                 if(command.equals("exit")) exit = true;
             }
         } catch (IOException ex) {
