@@ -36,7 +36,14 @@ public class CreateModifyMeeting extends javax.swing.JDialog {
             emListMeeting=new Vector<Employee>();
             toBeModified=modify;
             for(int i=0;i<emListNotMeeting.size();i++){
-                leftListModel.addElement("username:"+emListNotMeeting.get(i).getUserName());
+                if(MainProgram.getMPC().isEmployeeInMeeting(emListNotMeeting.get(i),toBeModified))
+                {
+                    Employee e = emListNotMeeting.remove(i);
+                    emListMeeting.add(e);
+                    rightListModel.addElement("username:"+e.getName());
+                }
+                else 
+                    leftListModel.addElement("username:"+emListNotMeeting.get(i).getUserName());
             }
         emp=em;
         updateWeekValue();
@@ -238,7 +245,8 @@ private void helperOpenCompute(){
     }else{
         createdMeeting=new DisplayTimeSlotDiag(this,true,emp,date,emListMeeting,toBeModified).openDialog();
     }
-    if(createdMeeting!=null) dispose();    
+    if(createdMeeting!=null) MainProgram.sendEmail(createdMeeting, toBeModified!=null);
+    if(createdMeeting!=null) dispose();
 }
 
 private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
